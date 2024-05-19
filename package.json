@@ -1,0 +1,43 @@
+{
+  "name": "webapp",
+  "displayName": "WebApp",
+  "version": "0.0.1",
+  "description": "WebApp description",
+  "main": "index.js",
+  "scripts": {
+    "init-project": "node ./scripts/update-package-json.js",
+    "build:patch": "webpack --config webpack.config.js --mode production && npm run bump-version patch && npm run copy-release && npm run zip-release",
+    "build:minor": "webpack --config webpack.config.js --mode production && npm run bump-version minor && npm run copy-release && npm run zip-release",
+    "build:major": "webpack --config webpack.config.js --mode production && npm run bump-version major && npm run copy-release && npm run zip-release",
+    "bump-version": "node ./scripts/bump-version.js",
+    "copy-release": "node ./scripts/copy-release-docs.js",
+    "zip-release": "node ./scripts/zip-release.js",
+    "start": "webpack serve --config webpack.config.js --mode development",
+    "stop": "sh ./scripts/stop-server.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/USER/PROJECT.git"
+  },
+  "keywords": [],
+  "author": "M. Passarello",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/USER/PROJECT/issues"
+  },
+  "homepage": "https://github.com/USER/PROJECT#readme",
+  "devDependencies": {
+    "archiver": "^6.0.1",
+    "source-map-loader": "^5.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^9.2.22"
+  }
+}

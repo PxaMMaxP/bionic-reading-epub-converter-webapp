@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Start Chrome on localhost",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "preLaunchTask": "Start webpack-dev-server",
+            "postDebugTask": "Stop webpack-dev-server",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "sourceMapPathOverrides": {
+                "webpack:/abfallalarm/*": "${webRoot}/src/*",
+                "webpack:///./src/*": "${webRoot}/src/*",
+                "webpack:///*": "*",
+                "webpack:///src/*": "${webRoot}/src/*",
+                "webpack://abfallalarm/*": "${webRoot}/*"
+            }
+        }
+    ]
+}

@@ -1,0 +1,107 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "env": { "node": true },
+    "plugins": [
+      "@typescript-eslint",
+      "deprecation",
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ], 
+    "parserOptions": {
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+      "prettier/prettier": "warn",
+      "array-callback-return": ["error"],
+      "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "args": "none"
+      }
+    ],
+      "no-unused-vars": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "no-prototype-builtins": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "deprecation/deprecation": "warn",
+      "no-console": "error",
+      "@typescript-eslint/naming-convention": [
+        "warn",
+        {
+          "selector": "classProperty",
+          "modifiers": ["private"],
+          "format": ["camelCase"],
+          "leadingUnderscore": "require"
+        },
+        {
+          "selector": "classProperty",
+          "modifiers": ["private"],
+          "filter": {
+            "regex": "^logger$",
+            "match": true
+          },
+          "format": ["camelCase"],
+          "leadingUnderscore": "forbid"
+        },
+        {
+          "selector": "memberLike",
+          "modifiers": ["public"],
+          "format": ["camelCase"],
+          "leadingUnderscore": "forbid"
+        },
+        {
+          "selector": "typeProperty",
+          "modifiers": ["public"],
+          "format": null,
+          "filter": {
+            "regex": ".*-event$",
+            "match": true
+          },
+          "custom": {
+            "regex": "^[a-z]+(-[a-z]+)*-event$",
+            "match": true
+          }
+        },
+        {
+          "selector": "typeProperty",
+          "modifiers": ["public"],
+          "format": ["camelCase"],
+          "filter": {
+            "regex": ".*-event$",
+            "match": false
+          }
+        }
+                
+      ],      
+      "@typescript-eslint/padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "return",
+          "if",
+          "multiline-const",
+          "function",
+          "multiline-expression",
+          "multiline-let",
+          "block-like"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["function"],
+        "next": "*"
+      }
+    ]
+    } 
+  }
