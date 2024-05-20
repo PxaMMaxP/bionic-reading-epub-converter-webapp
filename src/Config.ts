@@ -1,5 +1,5 @@
 export default class Config {
-    public static version = '0.2.0';
+    public static version = '0.2.2';
     public static title = 'Bionic Reading EPUB Converter';
     public static description = 'Convert EPUB to Bionic Reading EPUB.';
     public static author = 'M. Passarello';
