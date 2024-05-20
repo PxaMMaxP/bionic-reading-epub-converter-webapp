@@ -1,6 +1,6 @@
 # Bionic Reading EPUB Converter
 
-![WakaTime](https://waka.mpassarello.de/api/badge/MaxP/interval:any/project:bionic-reading-epub-converter?label=Project%20time&timestamp=${new Date().getTime()})
+![WakaTime](https://waka.mpassarello.de/api/badge/MaxP/interval:any/project:bionic-reading-epub-converter?label=Project%20time)
 
 This web application allows you to convert an EPUB file to a Bionic Reading EPUB file. The app processes the text within the EPUB to enhance the reading experience by applying Bionic Reading principles.
 
