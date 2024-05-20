@@ -1,9 +1,9 @@
-/**
- * Represents a handler for EPUB files.
- */
 import JSZip from 'jszip';
 import { File } from './File';
 
+/**
+ * Represents a handler for EPUB files.
+ */
 export class EpubHandler {
     private zip: JSZip;
     private files: { [key: string]: File };
@@ -34,29 +34,6 @@ export class EpubHandler {
     }
 
     /**
-     * Gets the file with the specified path.
-     * @param path - The path of the file.
-     * @returns The file with the specified path, or null if not found.
-     */
-    getFile(path: string): File | null {
-        return this.files[path] || null;
-    }
-
-    /**
-     * Sets the content of the file with the specified path.
-     * If the file does not exist, it creates a new file.
-     * @param path - The path of the file.
-     * @param content - The content of the file as a string or ArrayBuffer.
-     */
-    setFile(path: string, content: string | ArrayBuffer): void {
-        if (this.files[path]) {
-            this.files[path].setContent(content);
-        } else {
-            this.files[path] = new File(path, content);
-        }
-    }
-
-    /**
      * Gets an array of all file paths in the EPUB.
      * @returns An array of file paths.
      */
@@ -84,15 +61,26 @@ export class EpubHandler {
      */
     async pack(): Promise<Blob> {
         const newZip = new JSZip();
+
+        // Ensure the mimetype file is the first and not compressed
+        if (this.files['mimetype']) {
+            newZip.file('mimetype', this.files['mimetype'].getContent(), {
+                compression: 'STORE',
+            });
+        }
+
         Object.keys(this.files).forEach((path) => {
-            const file = this.files[path];
-            const content = file.getContent();
-            if (typeof content === 'string') {
-                newZip.file(path, content);
-            } else {
-                newZip.file(path, content);
+            if (path !== 'mimetype') {
+                const file = this.files[path];
+                const content = file.getContent();
+                if (typeof content === 'string') {
+                    newZip.file(path, content);
+                } else {
+                    newZip.file(path, content);
+                }
             }
         });
+
         return await newZip.generateAsync({ type: 'blob' });
     }
 }
