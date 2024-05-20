@@ -8,7 +8,7 @@ import { marked } from 'marked';
  * It also includes a method to update the HTML content of the application's index page.
  */
 export default class Config {
-    public static readonly version = '0.6.2';
+    public static readonly version = '0.6.3';
     public static readonly title = 'Bionic Reading EPUB Converter';
     public static readonly description = 'Convert EPUB to Bionic Reading EPUB.';
     public static readonly author = 'M. Passarello';
