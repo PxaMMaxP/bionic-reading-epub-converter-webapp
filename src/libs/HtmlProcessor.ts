@@ -172,7 +172,21 @@ export class HtmlProcessor {
         }
 
         if (elementNode.children) {
-            this.boldText(elementNode.children);
+            const newChildren: ChildNode[] = [];
+            elementNode.children.forEach((child) => {
+                if (child.type === 'text') {
+                    const newNodes = this.createBoldOrMixedNodes(
+                        (child as Text).data
+                    );
+                    newChildren.push(...newNodes);
+                } else if (child.type === 'tag') {
+                    this.processElementNode(child as Element);
+                    newChildren.push(child);
+                } else {
+                    newChildren.push(child);
+                }
+            });
+            elementNode.children = newChildren;
         }
     }
 
@@ -190,32 +204,6 @@ export class HtmlProcessor {
                     this.excludedTagsWithClasses[tagName].includes(cls)
                 ))
         );
-    }
-
-    /**
-     * Creates an array of child nodes with bold formatting based on the given text.
-     * Handles Unicode characters correctly.
-     * @param text - The text to format.
-     * @returns An array of child nodes with bold formatting.
-     */
-    private createBoldNodes(text: string): ChildNode[] {
-        const parts = text.match(this.textRegex) || [];
-        const nodes: ChildNode[] = [];
-
-        parts.forEach((part) => {
-            if (
-                this.spaceRegex.test(part) ||
-                this.unicodeEntityRegex.test(part)
-            ) {
-                nodes.push(new Text(part));
-            } else if (this.nonAlphanumericRegex.test(part)) {
-                nodes.push(new Text(part));
-            } else {
-                nodes.push(...this.createBoldOrMixedNodes(part));
-            }
-        });
-
-        return nodes;
     }
 
     /**
