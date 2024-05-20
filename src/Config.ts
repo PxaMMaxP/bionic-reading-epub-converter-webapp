@@ -104,7 +104,7 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
             .setAttribute('href', Config.githubProfile);
         document.getElementById(
             Config.ELEMENT_IDS.footerVersion
-        )!.innerText = `Version: ${Config.version}`;
+        )!.innerText = `App Version: ${Config.version}`;
     }
 
     /**
