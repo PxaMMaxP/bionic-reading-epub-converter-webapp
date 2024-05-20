@@ -6,7 +6,7 @@ import Config from './Config';
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Loading the WebApp Version ' + Config.version + '...');
 
-    Config.replaceInIndexHtml(document);
+    await Config.replaceInIndexHtml(document);
 
     const app = new App();
 });

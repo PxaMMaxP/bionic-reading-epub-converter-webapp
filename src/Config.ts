@@ -1,3 +1,5 @@
+import { marked } from 'marked';
+
 /**
  * Configuration class for the Bionic Reading EPUB Converter application.
  *
@@ -6,14 +8,29 @@
  * It also includes a method to update the HTML content of the application's index page.
  */
 export default class Config {
-    public static readonly version = '0.3.0';
+    public static version = '0.5.0';
     public static readonly title = 'Bionic Reading EPUB Converter';
     public static readonly description = 'Convert EPUB to Bionic Reading EPUB.';
     public static readonly author = 'M. Passarello';
     public static readonly githubProfile = 'https://github.com/PxaMMaxP';
     public static readonly githubRepository =
         'https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp';
-    public static readonly longDescription = `This webapp allows you to convert an EPUB file to a Bionic Reading EPUB file.`;
+    public static readonly longDescription = `This webapp allows you to convert an EPUB file to a Bionic Reading EPUB file.
+
+With this tool, you can enhance your reading experience by applying Bionic Reading principles to your EPUB files. Bionic Reading focuses on guiding the eyes through text with artificial fixation points, making it easier and faster to read.
+
+### Key Features:
+- **EPUB to Bionic Reading Conversion**: Upload your EPUB file, and the app will process the text to add Bionic Reading enhancements.
+- **User Privacy**: All processing is done locally on your device. Your EPUB file never leaves your computer, ensuring your privacy and data security.
+- **Ease of Use**: Simple and intuitive interface to upload your file and download the converted version.
+
+### Important Notes:
+1. **Keep the Original File**: Always keep a copy of your original EPUB file. While the conversion process aims to maintain the integrity of your file, there is no guarantee of success for every EPUB file due to variations in formatting and structure.
+2. **No Success Guarantee**: The app does its best to convert your file accurately, but due to the diverse nature of EPUB files, some may not convert perfectly or at all.
+3. **Local Processing**: All file processing happens on your computer, which means your data is not uploaded to any server. This enhances privacy but also means that the app's performance depends on your device's capabilities.
+
+Enjoy a more efficient and pleasant reading experience with your newly converted Bionic Reading EPUB file!`;
+
     public static readonly successMessage = 'File successfully converted!';
 
     private static readonly ELEMENT_IDS = {
@@ -32,10 +49,10 @@ export default class Config {
      * Replaces content in the index.html document with configuration values.
      * @param document - The HTML document to update.
      */
-    public static replaceInIndexHtml(document: Document): void {
+    public static async replaceInIndexHtml(document: Document): Promise<void> {
         Config.updateTitle(document);
         Config.updateMetaDescription(document);
-        Config.updateAppContent(document);
+        await Config.updateAppContent(document);
         Config.updateSuccessMessage(document);
         Config.updateFooterContent(document);
     }
@@ -64,11 +81,12 @@ export default class Config {
      * Updates the application content in the document.
      * @param document - The HTML document to update.
      */
-    private static updateAppContent(document: Document): void {
+    private static async updateAppContent(document: Document): Promise<void> {
         document.getElementById(Config.ELEMENT_IDS.appTitle)!.innerText =
             Config.title;
+        const htmlContent = await marked(Config.longDescription);
         document.getElementById(Config.ELEMENT_IDS.appDescription)!.innerHTML =
-            Config.longDescription.replace(/\n/g, '<br>');
+            htmlContent;
         document
             .getElementById(Config.ELEMENT_IDS.githubCornerLink)!
             .setAttribute('href', Config.githubRepository);
