@@ -14,6 +14,7 @@ export default class Config {
     public static readonly githubRepository =
         'https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp';
     public static readonly longDescription = `This webapp allows you to convert an EPUB file to a Bionic Reading EPUB file.`;
+    public static readonly successMessage = 'File successfully converted!';
 
     private static readonly ELEMENT_IDS = {
         headTitle: 'head-title',
@@ -24,6 +25,7 @@ export default class Config {
         footerAuthor: 'footer-author',
         githubProfile: 'github-profile',
         footerVersion: 'footer-version',
+        successMessage: 'success-message-text',
     };
 
     /**
@@ -34,6 +36,7 @@ export default class Config {
         Config.updateTitle(document);
         Config.updateMetaDescription(document);
         Config.updateAppContent(document);
+        Config.updateSuccessMessage(document);
         Config.updateFooterContent(document);
     }
 
@@ -84,5 +87,14 @@ export default class Config {
         document.getElementById(
             Config.ELEMENT_IDS.footerVersion
         )!.innerText = `Version: ${Config.version}`;
+    }
+
+    /**
+     * Updates the success message in the document.
+     * @param document - The HTML document to update.
+     */
+    private static updateSuccessMessage(document: Document): void {
+        document.getElementById(Config.ELEMENT_IDS.successMessage)!.innerText =
+            Config.successMessage;
     }
 }
