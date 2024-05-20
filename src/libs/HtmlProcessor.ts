@@ -2,7 +2,15 @@ import { Parser } from 'htmlparser2';
 import { DomHandler, Element, Text, Node, ChildNode } from 'domhandler';
 import { default as serialize } from 'dom-serializer';
 
+/**
+ * Class responsible for processing HTML content.
+ */
 export class HtmlProcessor {
+    /**
+     * Processes the given HTML content by parsing it, applying modifications, and serializing it back to HTML.
+     * @param html - The HTML content to process.
+     * @returns The processed HTML content.
+     */
     process(html: string): string {
         const handler = new DomHandler();
         const parser = new Parser(handler);
@@ -19,6 +27,10 @@ export class HtmlProcessor {
         return serializedDocument;
     }
 
+    /**
+     * Recursively applies bold formatting to text nodes within the given array of child nodes.
+     * @param nodes - The array of child nodes to process.
+     */
     private boldText(nodes: ChildNode[]) {
         nodes.forEach((node) => {
             if (node.type === 'text') {
@@ -40,6 +52,11 @@ export class HtmlProcessor {
         });
     }
 
+    /**
+     * Creates an array of child nodes with bold formatting based on the given text.
+     * @param text - The text to format.
+     * @returns An array of child nodes with bold formatting.
+     */
     private createBoldNodes(text: string): ChildNode[] {
         const parts = text.match(/\w+|[^\s\w]+|\s+/g) || [];
         const nodes: ChildNode[] = [];
