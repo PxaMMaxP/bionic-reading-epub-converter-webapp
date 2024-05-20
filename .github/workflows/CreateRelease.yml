@@ -28,17 +28,6 @@ jobs:
               id: get_version
               run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-            - name: Copy Files to docs
-              run: npm run copy-release
-
-            - name: Commit changes
-              run: |
-                  git config --global user.name 'github-actions'
-                  git config --global user.email 'github-actions@github.com'
-                  git add docs
-                  git commit -m "Update docs for version ${{ env.VERSION }}"
-                  git push origin main
-
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
@@ -56,6 +45,14 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./release/Bionic Reading Epub Converter WebApp_v${{ env.VERSION }}.zip
+                  asset_path: ./release/bionic-reading-epub-converter-webapp_v${{ env.VERSION }}.zip
                   asset_name: Bionic_Reading_Epub_Converter_WebApp_v${{ env.VERSION }}.zip
                   asset_content_type: application/zip
+
+            - name: Commit changes to docs
+              run: |
+                  git config --local user.email "actions@github.com"
+                  git config --local user.name "GitHub Actions"
+                  git add docs
+                  git commit -m "Update docs for version ${{ env.VERSION }}"
+                  git push
