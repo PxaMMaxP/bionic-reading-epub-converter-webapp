@@ -1,14 +1,14 @@
 {
   "name": "bionic-reading-epub-converter-webapp",
   "displayName": "Bionic Reading EPUB Converter WebApp",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "WebApp to convert EPUB files to Bionic Reading format",
   "main": "index.js",
   "scripts": {
     "init-project": "node ./scripts/update-package-json.js",
-    "build:patch": "webpack --config webpack.config.js --mode production && npm run bump-version patch && npm run copy-release && npm run zip-release",
-    "build:minor": "webpack --config webpack.config.js --mode production && npm run bump-version minor && npm run copy-release && npm run zip-release",
-    "build:major": "webpack --config webpack.config.js --mode production && npm run bump-version major && npm run copy-release && npm run zip-release",
+    "build:patch": "npm run bump-version patch && webpack --config webpack.config.js --mode production && npm run copy-release && npm run zip-release",
+    "build:minor": "npm run bump-version minor && webpack --config webpack.config.js --mode production && npm run copy-release && npm run zip-release",
+    "build:major": "npm run bump-version major && webpack --config webpack.config.js --mode production && npm run copy-release && npm run zip-release",
     "bump-version": "node ./scripts/bump-version.js",
     "copy-release": "node ./scripts/copy-release-docs.js",
     "zip-release": "node ./scripts/zip-release.js",
