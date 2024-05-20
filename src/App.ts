@@ -44,7 +44,7 @@ export default class App {
                     await this._epubHandler.load(arrayBuffer);
 
                     const htmlProcessor = new HtmlProcessor();
-                    const htmlFiles = this._epubHandler.getFiles('.html');
+                    const htmlFiles = this._epubHandler.getFiles('html'); // Get all (x)HTML files
                     htmlFiles.forEach((file) => {
                         const htmlContent = file.getTextContent() as string;
                         const processedContent =
