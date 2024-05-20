@@ -53,7 +53,9 @@ export default class App {
                     });
 
                     const newEpub = await this._epubHandler.pack();
-                    saveAs(newEpub, 'modified.epub');
+                    const originalFileName = file.name.replace(/\.epub$/, '');
+                    const newFileName = `${originalFileName}_bionic.epub`;
+                    saveAs(newEpub, newFileName);
                 }
             };
 
