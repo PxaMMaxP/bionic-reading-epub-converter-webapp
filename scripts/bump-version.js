@@ -59,7 +59,7 @@ console.log(`Version updated to ${packageJson.version}`);
 // Update the version number in Config.ts
 let configTsContent = fs.readFileSync(configTsPath, 'utf8');
 const versionRegex = /public static readonly version = ['"](\d+\.\d+\.\d+)['"]/;
-configTsContent = configTsContent.replace(versionRegex, `public static version = '${newVersion}'`);
+configTsContent = configTsContent.replace(versionRegex, `public static readonly version = '${newVersion}'`);
 
 // Write the updated Config.ts back to the file system
 fs.writeFileSync(configTsPath, configTsContent, 'utf8');
