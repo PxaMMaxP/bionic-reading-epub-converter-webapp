@@ -12,11 +12,11 @@
             "postDebugTask": "Stop webpack-dev-server",
             "userDataDir": "${workspaceFolder}/.vscode/chrome",
             "sourceMapPathOverrides": {
-                "webpack:/abfallalarm/*": "${webRoot}/src/*",
+                "webpack:/bionic-reading-epub-converter-webapp/*": "${webRoot}/src/*",
                 "webpack:///./src/*": "${webRoot}/src/*",
                 "webpack:///*": "*",
                 "webpack:///src/*": "${webRoot}/src/*",
-                "webpack://abfallalarm/*": "${webRoot}/*"
+                "webpack://bionic-reading-epub-converter-webapp/*": "${webRoot}/*"
             }
         }
     ]

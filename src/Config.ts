@@ -1,12 +1,12 @@
 export default class Config {
-    public static version = '0.0.1';
-    public static title = 'WebApp';
-    public static description = 'A simple WebApp template';
+    public static version = '0.1.1';
+    public static title = 'Bionic Reading EPUB Converter';
+    public static description = 'Convert EPUB to Bionic Reading EPUB.';
     public static author = 'M. Passarello';
     public static githubProfile = 'https://github.com/PxaMMaxP';
-    public static githubRepository = 'https://github.com/PxaMMaxP';
-    public static longDescription: string = `This is a simple WebApp template.
-        You can use this template to create your own WebApp.`;
+    public static githubRepository =
+        'https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp';
+    public static longDescription: string = `This webapp allows you to convert an EPUB file to a Bionic Reading EPUB file.`;
 
     public static replaceInIndexHtml(document: Document) {
         document.title = Config.title;
@@ -25,7 +25,7 @@ export default class Config {
 
         document.getElementById('footer-author')!.innerText = Config.author;
         document
-            .getElementById('footer-github')!
+            .getElementById('github-profile')!
             .setAttribute('href', Config.githubProfile);
         document.getElementById(
             'footer-version'

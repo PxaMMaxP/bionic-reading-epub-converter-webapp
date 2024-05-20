@@ -1,8 +1,8 @@
 {
-  "name": "webapp",
-  "displayName": "WebApp",
-  "version": "0.0.1",
-  "description": "WebApp description",
+  "name": "bionic-reading-epub-converter-webapp",
+  "displayName": "Bionic Reading EPUB Converter WebApp",
+  "version": "0.1.1",
+  "description": "WebApp to convert EPUB files to Bionic Reading format",
   "main": "index.js",
   "scripts": {
     "init-project": "node ./scripts/update-package-json.js",
@@ -17,16 +17,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/USER/PROJECT.git"
+    "url": "git+https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp.git"
   },
   "keywords": [],
   "author": "M. Passarello",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/USER/PROJECT/issues"
+    "url": "https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp/issues"
   },
-  "homepage": "https://github.com/USER/PROJECT#readme",
+  "homepage": "https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp#readme",
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/xmlserializer": "^0.6.6",
     "archiver": "^6.0.1",
     "source-map-loader": "^5.0.0",
     "ts-loader": "^9.5.1",
@@ -36,8 +38,15 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "css-select": "^5.1.0",
+    "dom-serializer": "^2.0.0",
+    "domhandler": "^5.0.3",
+    "file-saver": "^2.0.5",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8",
-    "inquirer": "^9.2.22"
+    "htmlparser2": "^9.1.0",
+    "inquirer": "^9.2.22",
+    "jszip": "^3.10.1",
+    "xmlserializer": "^0.6.1"
   }
 }

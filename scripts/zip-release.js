@@ -11,17 +11,17 @@ const archiver = require('archiver');
 const path = require('path');
 
 // Path to the package.json file
-const packageJsonPath = path.join(__dirname, 'package.json');
+const packageJsonPath = path.join(__dirname, '..', 'package.json');
 const packageJson = require(packageJsonPath);
 
 // Construct the output file name and path
 const outputFileName = `${packageJson.displayName}_v${packageJson.version}.zip`;
-const outputFilePath = path.join(__dirname, 'release', outputFileName);
-const sourceDirPath = path.join(__dirname, 'docs');
+const outputFilePath = path.join(__dirname, '..', 'release', outputFileName);
+const sourceDirPath = path.join(__dirname, '..', 'docs');
 
 // Ensure the release directory exists
-if (!fs.existsSync(path.join(__dirname, 'release'))) {
-    fs.mkdirSync(path.join(__dirname, 'release'));
+if (!fs.existsSync(path.join(__dirname, '..', 'release'))) {
+    fs.mkdirSync(path.join(__dirname, '..', 'release'));
 }
 
 // Create the ZIP archive
