@@ -103,10 +103,13 @@ export class HtmlProcessor {
      * @returns An array of child nodes with bold formatting.
      */
     private createBoldNodes(text: string): ChildNode[] {
-        const parts = text.match(/[\p{L}\p{N}]+|[^\s\p{L}\p{N}]+|\s+/gu) || [];
+        const parts =
+            text.match(
+                /[\p{L}\p{N}]+|[^\s\p{L}\p{N}]+|\s+|&#\d+;|&#x[a-fA-F0-9]+;/gu
+            ) || [];
         const nodes: ChildNode[] = [];
         parts.forEach((part) => {
-            if (part.match(/\s+/u)) {
+            if (part.match(/\s+/u) || part.match(/&#\d+;|&#x[a-fA-F0-9]+;/u)) {
                 nodes.push(new Text(part));
             } else if (part.match(/[^\p{L}\p{N}]/u)) {
                 nodes.push(new Text(part));
