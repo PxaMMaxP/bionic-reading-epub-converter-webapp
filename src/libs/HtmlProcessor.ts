@@ -93,7 +93,7 @@ export class HtmlProcessor {
         });
         parser.write(html);
         parser.end();
-        return handler.dom;
+        return handler.dom as ChildNode[];
     }
 
     /**
@@ -125,7 +125,9 @@ export class HtmlProcessor {
      * @param textNode - The text node to process.
      */
     private processTextNode(textNode: Text): void {
-        const newNodes = this.createBoldNodes(textNode.data);
+        const newNodes: ChildNode[] = this.createBoldOrMixedNodes(
+            textNode.data
+        );
         if (newNodes.length > 0) {
             const parent = textNode.parent as Element;
             if (parent) {
