@@ -8,9 +8,15 @@ import { DataNode } from 'domhandler'; // Import the missing DataNode type
 import { EpubHandler } from './libs/EpubHandler';
 import { HtmlProcessor } from './libs/HtmlProcessor';
 
+/**
+ * Represents the main application class.
+ */
 export default class App {
     private _epubHandler: EpubHandler;
 
+    /**
+     * Initializes a new instance of the App class.
+     */
     constructor() {
         console.log('App initialized');
         this.addEventListeners();
@@ -18,6 +24,9 @@ export default class App {
         this._epubHandler = new EpubHandler();
     }
 
+    /**
+     * Adds event listeners to the necessary elements.
+     */
     private addEventListeners() {
         console.log('Adding event listeners');
         document
@@ -25,6 +34,10 @@ export default class App {
             ?.addEventListener('change', this.handleFileUpload.bind(this));
     }
 
+    /**
+     * Handles the file upload event.
+     * @param event - The file upload event.
+     */
     private async handleFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
