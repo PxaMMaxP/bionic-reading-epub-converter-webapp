@@ -1,10 +1,4 @@
-import JSZip from 'jszip';
-import { Parser } from 'htmlparser2';
-import { DomHandler, Element, Node } from 'domhandler';
-import { selectAll } from 'css-select';
-import { DomUtils } from 'htmlparser2';
 import { saveAs } from 'file-saver';
-import { DataNode } from 'domhandler'; // Import the missing DataNode type
 import { EpubHandler } from './libs/EpubHandler';
 import { HtmlProcessor } from './libs/HtmlProcessor';
 
