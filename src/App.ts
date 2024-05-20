@@ -56,7 +56,12 @@ export default class App {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
+            this.hideFileInput();
+            this.showLoadingSpinner();
             await this.processFile(file);
+            this.hideLoadingSpinner();
+            this.showSuccessMessage(this.showFileInput.bind(this));
+            input.value = ''; // Clear the input field
         }
     }
 
@@ -131,5 +136,61 @@ export default class App {
      */
     private generateNewFileName(originalFileName: string): string {
         return originalFileName.replace(/\.epub$/, '') + '_bionic.epub';
+    }
+
+    /**
+     * Shows the loading spinner and hides the file input.
+     */
+    private showLoadingSpinner(): void {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+            spinner.style.display = 'block';
+        }
+    }
+
+    /**
+     * Hides the loading spinner and shows the file input.
+     */
+    private hideLoadingSpinner(): void {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+            spinner.style.display = 'none';
+        }
+    }
+
+    /**
+     * Hides the file input.
+     */
+    private hideFileInput(): void {
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) {
+            fileInput.style.display = 'none';
+        }
+    }
+
+    /**
+     * Shows the file input.
+     */
+    private showFileInput(): void {
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) {
+            fileInput.style.display = 'block';
+        }
+    }
+
+    /**
+     * Shows the success message.
+     */
+    private showSuccessMessage(callback?: () => void): void {
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+                if (callback) {
+                    callback();
+                }
+            }, 3000); // Display the success message for 3 seconds
+        }
     }
 }
