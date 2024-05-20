@@ -1,5 +1,20 @@
 /**
  * Utility class for Bionic Reading formatting.
+ *
+ * The `BionicReading` class provides a method to determine how many characters
+ * of a word should be bolded based on the word's length. This is useful for
+ * applications implementing Bionic Reading, a technique to improve reading speed
+ * and comprehension by highlighting the first few characters of a word.
+ *
+ * Key Features:
+ * - Configurable maximum length for fully bolded words.
+ * - Logarithmic calculation for partial bolding of longer words.
+ *
+ * Example usage:
+ * ```typescript
+ * const boldPoint = BionicReading.getBoldPoint(word.length);
+ * const boldedText = word.slice(0, boldPoint) + word.slice(boldPoint);
+ * ```
  */
 export class BionicReading {
     /**

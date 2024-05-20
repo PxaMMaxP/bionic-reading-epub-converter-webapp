@@ -4,7 +4,28 @@ import { default as serialize } from 'dom-serializer';
 import { BionicReading } from './BionicReading';
 
 /**
- * Class responsible for processing HTML content from an epub file.
+ * Class responsible for processing HTML content from an EPUB file.
+ *
+ * The `HtmlProcessor` class provides functionalities to parse, modify, and serialize HTML content
+ * within an EPUB file. It utilizes the `htmlparser2` library to handle the parsing of HTML content
+ * and the `domhandler` library to manage the DOM structure. The class also integrates with the
+ * `BionicReading` utility to apply bold formatting to text nodes based on Bionic Reading principles.
+ *
+ * Key Features:
+ * - Parse HTML content into a DOM structure.
+ * - Apply bold formatting to text nodes, while skipping specified tags and classes.
+ * - Serialize the modified DOM structure back to HTML.
+ *
+ * The class uses various regular expressions to identify different parts of the text, such as sequences
+ * of letters and numbers, whitespace, and character entities. Specific tags and classes can be excluded
+ * from processing to ensure that the formatting is applied selectively.
+ *
+ * Example usage:
+ * ```typescript
+ * const htmlProcessor = new HtmlProcessor();
+ * const processedHtml = htmlProcessor.process(epubHtmlContent);
+ * console.log(processedHtml);
+ * ```
  */
 export class HtmlProcessor {
     /**

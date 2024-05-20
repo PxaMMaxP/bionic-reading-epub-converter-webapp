@@ -1,12 +1,30 @@
 import JSZip from 'jszip';
-import { File } from './File';
+import { EpubFile } from './EpubFile';
 
 /**
- * Represents a handler for EPUB files.
+ * Class representing a handler for EPUB files.
+ *
+ * The `EpubHandler` class provides functionalities to load, manipulate, and pack EPUB files.
+ * It utilizes the `JSZip` library to handle the underlying ZIP structure of EPUB files and
+ * manages the individual files within the EPUB archive.
+ *
+ * Key Features:
+ * - Asynchronously load EPUB files from an `ArrayBuffer`.
+ * - Access and filter files within the EPUB by their paths or extensions.
+ * - Pack the EPUB files back into a `Blob` for downloading or further processing.
+ *
+ * Example usage:
+ * ```typescript
+ * const epubHandler = new EpubHandler();
+ * await epubHandler.load(epubData);
+ * const filePaths = epubHandler.getFilePaths();
+ * const htmlFiles = epubHandler.getFiles('.html');
+ * const packedEpub = await epubHandler.pack();
+ * ```
  */
 export class EpubHandler {
     private zip: JSZip;
-    private files: { [key: string]: File };
+    private files: { [key: string]: EpubFile };
 
     /**
      * Creates an instance of EpubHandler.
@@ -23,11 +41,18 @@ export class EpubHandler {
      */
     async load(epubData: ArrayBuffer): Promise<void> {
         this.zip = await JSZip.loadAsync(epubData);
+        await this.loadFiles();
+    }
+
+    /**
+     * Loads files from the zip object into the files dictionary.
+     */
+    private async loadFiles(): Promise<void> {
         const filePromises = Object.keys(this.zip.files).map(async (path) => {
             const file = this.zip.files[path];
             if (!file.dir) {
                 const content = await file.async('arraybuffer');
-                this.files[path] = new File(path, content);
+                this.files[path] = new EpubFile(path, content);
             }
         });
         await Promise.all(filePromises);
@@ -46,13 +71,21 @@ export class EpubHandler {
      * @param extension - Optional. Filters the files by extension.
      * @returns An array of files.
      */
-    getFiles(extension?: string): File[] {
-        if (extension) {
-            return Object.values(this.files).filter((file) =>
-                file.getPath().endsWith(extension)
-            );
-        }
-        return Object.values(this.files);
+    getFiles(extension?: string): EpubFile[] {
+        return extension
+            ? this.filterFilesByExtension(extension)
+            : Object.values(this.files);
+    }
+
+    /**
+     * Filters the files by a given extension.
+     * @param extension - The file extension to filter by.
+     * @returns An array of files with the given extension.
+     */
+    private filterFilesByExtension(extension: string): EpubFile[] {
+        return Object.values(this.files).filter((file) =>
+            file.getPath().endsWith(extension)
+        );
     }
 
     /**
@@ -61,26 +94,34 @@ export class EpubHandler {
      */
     async pack(): Promise<Blob> {
         const newZip = new JSZip();
+        this.addMimeTypeToZip(newZip);
+        this.addFilesToZip(newZip);
+        return await newZip.generateAsync({ type: 'blob' });
+    }
 
-        // Ensure the mimetype file is the first and not compressed
+    /**
+     * Adds the mimetype file to the zip, ensuring it is the first and not compressed.
+     * @param newZip - The JSZip instance to add the mimetype file to.
+     */
+    private addMimeTypeToZip(newZip: JSZip): void {
         if (this.files['mimetype']) {
             newZip.file('mimetype', this.files['mimetype'].getContent(), {
                 compression: 'STORE',
             });
         }
+    }
 
+    /**
+     * Adds all files, except the mimetype, to the zip.
+     * @param newZip - The JSZip instance to add files to.
+     */
+    private addFilesToZip(newZip: JSZip): void {
         Object.keys(this.files).forEach((path) => {
             if (path !== 'mimetype') {
                 const file = this.files[path];
                 const content = file.getContent();
-                if (typeof content === 'string') {
-                    newZip.file(path, content);
-                } else {
-                    newZip.file(path, content);
-                }
+                newZip.file(path, content);
             }
         });
-
-        return await newZip.generateAsync({ type: 'blob' });
     }
 }
