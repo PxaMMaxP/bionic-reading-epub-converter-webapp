@@ -48,33 +48,35 @@ export default class App {
         }
     }
 
-/**
- * Handles the file upload event.
- * @param event - The file upload event.
- */
-private async handleFileUpload(event: Event): Promise<void> {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-        const file = input.files[0];
-        this.hideFileInput();
-        this.showLoadingSpinner();
+    /**
+     * Handles the file upload event.
+     * @param event - The file upload event.
+     */
+    private async handleFileUpload(event: Event): Promise<void> {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            this.hideFileInput();
+            this.showLoadingSpinner();
 
-        const startTime = performance.now(); // Start time measurement
-        await this.processFile(file);
-        const endTime = performance.now(); // End time measurement
+            const startTime = performance.now(); // Start time measurement
+            await this.processFile(file);
+            const endTime = performance.now(); // End time measurement
 
-        this.hideLoadingSpinner();
-        this.showSuccessMessage(this.showFileInput.bind(this));
-        input.value = ''; // Clear the input field
+            this.hideLoadingSpinner();
+            this.showSuccessMessage(this.showFileInput.bind(this));
+            input.value = ''; // Clear the input field
+            this._epubHandler = new EpubHandler(); // Reset the EPUB handler
 
-        const processingTime = (endTime - startTime) / 1000;
-        const seconds = Math.floor(processingTime);
-        const milliseconds = Math.floor((processingTime - seconds) * 1000);
+            const processingTime = (endTime - startTime) / 1000;
+            const seconds = Math.floor(processingTime);
+            const milliseconds = Math.floor((processingTime - seconds) * 1000);
 
-        console.info(`File processing time: ${seconds} seconds and ${milliseconds} milliseconds`);
+            console.info(
+                `File processing time: ${seconds} seconds and ${milliseconds} milliseconds`
+            );
+        }
     }
-}
-
 
     /**
      * Processes the uploaded file.
