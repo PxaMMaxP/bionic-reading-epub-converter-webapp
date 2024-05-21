@@ -49,3 +49,9 @@ To use the application, visit the [Bionic Reading EPUB Converter GitHub Pages si
 ## Repository
 
 For more information, visit the [GitHub repository](https://github.com/PxaMMaxP/bionic-reading-epub-converter-webapp).
+
+## Special thanks to
+
+A special thank to [dobrosketchkun](https://github.com/dobrosketchkun) for the [Bionic Reading Epub Convert](https://github.com/dobrosketchkun/bionic-reading-epub-converter) in Python. His code has served as inspiration!
+
+And a very special thanks to **Julia**, who gave me the idea to implement the whole thing as a user-friendly web app!
