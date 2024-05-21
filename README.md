@@ -6,6 +6,8 @@ This web application allows you to convert an EPUB file to a Bionic Reading EPUB
 
 ## Example
 
+### Example from "Handbuch für Softwareentwickler"
+
 The following sample text of how Bionic Reading enhances the reading experience is from the book "Handbuch für Softwareentwickler" by Veikko Krypczyk and Olena Bochkor, published by Rheinwerk Verlag. The text is in German and is used for demonstration purposes only.
 
 #### Without Bionic Reading
@@ -13,6 +15,10 @@ The following sample text of how Bionic Reading enhances the reading experience 
 
 #### With Bionic Reading
 ![With Bionic Reading](img/withBionicReading.png)
+
+### Example from "Algorithms to Live By"
+
+![Algorithms to Live By](img/algorithmsToLiveBy.jpeg)
 
 ## Key Features
 
