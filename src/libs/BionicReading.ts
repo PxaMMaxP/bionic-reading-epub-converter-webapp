@@ -20,7 +20,7 @@ export class BionicReading {
     /**
      * The maximum length of a word to be completely bolded.
      */
-    private static readonly MAX_BOLD_LENGTH = 3;
+    private static readonly _maxBoldLength = 3;
 
     /**
      * Determines how many characters of a word should be bold based on its length.
@@ -28,9 +28,10 @@ export class BionicReading {
      * @returns The number of characters to be bold.
      */
     static getBoldPoint(length: number): number {
-        if (length <= this.MAX_BOLD_LENGTH) {
+        if (length <= this._maxBoldLength) {
             return length; // Bold the entire word if it is 3 characters or less.
         }
+
         return this.calculateBoldLength(length);
     }
 

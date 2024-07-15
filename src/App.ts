@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
+import { EpubFile } from './libs/EpubFile';
 import { EpubHandler } from './libs/EpubHandler';
 import { HtmlProcessor } from './libs/HtmlProcessor';
-import { EpubFile } from './libs/EpubFile';
 
 /**
  * Represents the main application class.
@@ -40,10 +40,11 @@ export default class App {
     private addEventListeners(): void {
         console.log('Adding event listeners');
         const fileInput = document.getElementById('fileInput');
+
         if (fileInput) {
             fileInput.addEventListener(
                 'change',
-                this.handleFileUpload.bind(this)
+                this.handleFileUpload.bind(this),
             );
         }
     }
@@ -54,6 +55,7 @@ export default class App {
      */
     private async handleFileUpload(event: Event): Promise<void> {
         const input = event.target as HTMLInputElement;
+
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
             this.hideFileInput();
@@ -73,7 +75,7 @@ export default class App {
             const milliseconds = Math.floor((processingTime - seconds) * 1000);
 
             console.info(
-                `File processing time: ${seconds} seconds and ${milliseconds} milliseconds`
+                `File processing time: ${seconds} seconds and ${milliseconds} milliseconds`,
             );
         }
     }
@@ -102,6 +104,7 @@ export default class App {
     private readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
+
             reader.onload = (e) => {
                 if (e.target) {
                     resolve(e.target.result as ArrayBuffer);
@@ -109,6 +112,7 @@ export default class App {
                     reject(new Error('File reading failed'));
                 }
             };
+
             reader.onerror = (e) => {
                 reject(new Error('File reading error'));
             };
@@ -123,7 +127,7 @@ export default class App {
      */
     private processHtmlFiles(
         htmlProcessor: HtmlProcessor,
-        htmlFiles: EpubFile[]
+        htmlFiles: EpubFile[],
     ): void {
         htmlFiles.forEach((file) => {
             const htmlContent = file.getTextContent() as string;
@@ -156,6 +160,7 @@ export default class App {
      */
     private showLoadingSpinner(): void {
         const spinner = document.getElementById('loading-spinner');
+
         if (spinner) {
             spinner.style.display = 'block';
         }
@@ -166,6 +171,7 @@ export default class App {
      */
     private hideLoadingSpinner(): void {
         const spinner = document.getElementById('loading-spinner');
+
         if (spinner) {
             spinner.style.display = 'none';
         }
@@ -176,6 +182,7 @@ export default class App {
      */
     private hideFileInput(): void {
         const fileInput = document.getElementById('fileInput');
+
         if (fileInput) {
             fileInput.style.display = 'none';
         }
@@ -186,6 +193,7 @@ export default class App {
      */
     private showFileInput(): void {
         const fileInput = document.getElementById('fileInput');
+
         if (fileInput) {
             fileInput.style.display = 'block';
         }
@@ -193,13 +201,17 @@ export default class App {
 
     /**
      * Shows the success message.
+     * @param callback The optional callback function to execute after showing the message.
      */
     private showSuccessMessage(callback?: () => void): void {
         const successMessage = document.getElementById('success-message');
+
         if (successMessage) {
             successMessage.style.display = 'block';
+
             setTimeout(() => {
                 successMessage.style.display = 'none';
+
                 if (callback) {
                     callback();
                 }
