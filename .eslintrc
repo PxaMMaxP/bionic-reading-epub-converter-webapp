@@ -1,107 +1,189 @@
 {
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "env": { "node": true },
-    "plugins": [
-      "@typescript-eslint",
-      "deprecation",
-      "prettier"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ], 
-    "parserOptions": {
-        "sourceType": "module",
-        "project": "./tsconfig.json"
-    },
-    "rules": {
-      "prettier/prettier": "warn",
-      "array-callback-return": ["error"],
-      "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_",
-        "args": "none"
-      }
-    ],
-      "no-unused-vars": "off",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "no-prototype-builtins": "off",
-      "@typescript-eslint/no-empty-function": "off",
-      "deprecation/deprecation": "warn",
-      "no-console": "error",
-      "@typescript-eslint/naming-convention": [
-        "warn",
-        {
-          "selector": "classProperty",
-          "modifiers": ["private"],
-          "format": ["camelCase"],
-          "leadingUnderscore": "require"
-        },
-        {
-          "selector": "classProperty",
-          "modifiers": ["private"],
-          "filter": {
-            "regex": "^logger$",
-            "match": true
-          },
-          "format": ["camelCase"],
-          "leadingUnderscore": "forbid"
-        },
-        {
-          "selector": "memberLike",
-          "modifiers": ["public"],
-          "format": ["camelCase"],
-          "leadingUnderscore": "forbid"
-        },
-        {
-          "selector": "typeProperty",
-          "modifiers": ["public"],
-          "format": null,
-          "filter": {
-            "regex": ".*-event$",
-            "match": true
-          },
-          "custom": {
-            "regex": "^[a-z]+(-[a-z]+)*-event$",
-            "match": true
-          }
-        },
-        {
-          "selector": "typeProperty",
-          "modifiers": ["public"],
-          "format": ["camelCase"],
-          "filter": {
-            "regex": ".*-event$",
-            "match": false
-          }
-        }
-                
-      ],      
-      "@typescript-eslint/padding-line-between-statements": [
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "env": { "node": true },
+  "plugins": [
+    "@typescript-eslint",
+    "deprecation",
+    "prettier",
+    "import",
+    "jsdoc",
+    "override"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsdoc/recommended-typescript"
+  ], 
+  "parserOptions": {
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+  },
+  "rules": {
+    "override/require-override": "error",
+    "override/require-static-override": "error",
+    "prettier/prettier": "warn",
+    "array-callback-return": ["error"],
+    "@typescript-eslint/no-unused-vars": [
+    "error",
+    {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_",
+      "args": "none"
+    }
+  ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "no-prototype-builtins": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "deprecation/deprecation": "warn",
+    "no-console": "off",
+    "@typescript-eslint/naming-convention": [
       "warn",
       {
-        "blankLine": "always",
-        "prev": "*",
-        "next": [
-          "return",
-          "if",
-          "multiline-const",
-          "function",
-          "multiline-expression",
-          "multiline-let",
-          "block-like"
-        ]
+        "selector": "classProperty",
+        "modifiers": ["private"],
+        "format": ["camelCase"],
+        "leadingUnderscore": "require"
       },
       {
-        "blankLine": "always",
-        "prev": ["function"],
-        "next": "*"
+        "selector": "memberLike",
+        "modifiers": ["public"],
+        "format": ["camelCase"],
+        "leadingUnderscore": "forbid"
+      },
+      {
+        "selector": "typeProperty",
+        "modifiers": ["public"],
+        "format": null,
+        "filter": {
+          "regex": ".*-event$",
+          "match": true
+        },
+        "custom": {
+          "regex": "^[a-z]+(-[a-z]+)*-event$",
+          "match": true
+        }
+      },
+      {
+        "selector": "typeProperty",
+        "modifiers": ["public"],
+        "format": ["camelCase"],
+        "filter": {
+          "regex": ".*-event$",
+          "match": false
+        }
       }
-    ]
-    } 
-  }
+              
+    ],      
+    "@typescript-eslint/padding-line-between-statements": [
+    "warn",
+    {
+      "blankLine": "always",
+      "prev": "*",
+      "next": [
+        "return",
+        "if",
+        "multiline-const",
+        "function",
+        "multiline-expression",
+        "multiline-let",
+        "block-like"
+      ]
+    },
+    {
+      "blankLine": "always",
+      "prev": ["function"],
+      "next": "*"
+    }
+  ],
+  "import/order": [
+    "warn",
+    {
+      "groups": [
+        ["builtin", "external"],
+        ["internal"],
+        ["parent", "sibling"]
+      ],
+      "newlines-between": "never",
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      }
+    }
+  ],
+  "jsdoc/no-undefined-types": [
+    "warn",
+    {
+      "disableReporting": true,
+      "markVariablesAsUsed": true
+    }
+  ],
+  "jsdoc/require-jsdoc": [
+    "warn",
+    {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": false,
+        "FunctionExpression": false
+      }
+    }
+  ],
+  "jsdoc/require-param": ["warn", { "exemptedBy": ["deprecated"] }],
+  "jsdoc/require-description": [
+    "warn",
+    {
+      "contexts": [
+        "FunctionDeclaration",
+        "MethodDefinition",
+        "ClassDeclaration",
+        "ClassExpression"
+      ],
+      "descriptionStyle": "body",
+      "exemptedBy": ["deprecated"]
+    }
+  ],
+  "jsdoc/require-returns": [
+    "warn",
+    {
+      "checkGetters": false,
+      "exemptedBy": ["deprecated"]
+    }
+  ],
+  "jsdoc/check-tag-names": [
+    "warn",
+    {
+      "definedTags": ["remarks", "jest-environment", "singleton"]
+    }
+  ],
+  "jsdoc/check-alignment": "warn",
+  "jsdoc/check-indentation": "warn",
+  "jsdoc/no-restricted-syntax": [
+    "error",
+    {
+      "contexts": [
+        {
+          "context": "MethodDefinition[kind='get']",
+          "comment": "JsdocBlock:has(JsdocTag[tag='returns'])",
+          "message": "JSDoc @returns comments are not allowed in getters."
+        }
+      ]
+    }
+  ]
+  },
+  "overrides": [
+    {
+      "files": ["*.test.ts"],
+      "rules": {
+        "jsdoc/require-jsdoc": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-description": "off",
+        "jsdoc/require-returns": "off"
+      }
+    }
+  ]
+}
