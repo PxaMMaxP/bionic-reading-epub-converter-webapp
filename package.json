@@ -1,7 +1,7 @@
 {
   "name": "bionic-reading-epub-converter-webapp",
   "displayName": "Bionic Reading EPUB Converter WebApp",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "WebApp to convert EPUB files to Bionic Reading format",
   "main": "index.js",
   "scripts": {
