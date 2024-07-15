@@ -23,15 +23,15 @@ import { EpubFile } from './EpubFile';
  * ```
  */
 export class EpubHandler {
-    private zip: JSZip;
-    private files: { [key: string]: EpubFile };
+    private _zip: JSZip;
+    private _files: { [key: string]: EpubFile };
 
     /**
      * Creates an instance of EpubHandler.
      */
     constructor() {
-        this.zip = new JSZip();
-        this.files = {};
+        this._zip = new JSZip();
+        this._files = {};
     }
 
     /**
@@ -40,7 +40,7 @@ export class EpubHandler {
      * @returns A promise that resolves when the EPUB file is loaded.
      */
     async load(epubData: ArrayBuffer): Promise<void> {
-        this.zip = await JSZip.loadAsync(epubData);
+        this._zip = await JSZip.loadAsync(epubData);
         await this.loadFiles();
     }
 
@@ -48,11 +48,12 @@ export class EpubHandler {
      * Loads files from the zip object into the files dictionary.
      */
     private async loadFiles(): Promise<void> {
-        const filePromises = Object.keys(this.zip.files).map(async (path) => {
-            const file = this.zip.files[path];
+        const filePromises = Object.keys(this._zip.files).map(async (path) => {
+            const file = this._zip.files[path];
+
             if (!file.dir) {
                 const content = await file.async('arraybuffer');
-                this.files[path] = new EpubFile(path, content);
+                this._files[path] = new EpubFile(path, content);
             }
         });
         await Promise.all(filePromises);
@@ -63,7 +64,7 @@ export class EpubHandler {
      * @returns An array of file paths.
      */
     getFilePaths(): string[] {
-        return Object.keys(this.files);
+        return Object.keys(this._files);
     }
 
     /**
@@ -74,7 +75,7 @@ export class EpubHandler {
     getFiles(extension?: string): EpubFile[] {
         return extension
             ? this.filterFilesByExtension(extension)
-            : Object.values(this.files);
+            : Object.values(this._files);
     }
 
     /**
@@ -83,8 +84,8 @@ export class EpubHandler {
      * @returns An array of files with the given extension.
      */
     private filterFilesByExtension(extension: string): EpubFile[] {
-        return Object.values(this.files).filter((file) =>
-            file.getPath().endsWith(extension)
+        return Object.values(this._files).filter((file) =>
+            file.getPath().endsWith(extension),
         );
     }
 
@@ -96,6 +97,7 @@ export class EpubHandler {
         const newZip = new JSZip();
         this.addMimeTypeToZip(newZip);
         this.addFilesToZip(newZip);
+
         return await newZip.generateAsync({ type: 'blob' });
     }
 
@@ -104,8 +106,8 @@ export class EpubHandler {
      * @param newZip - The JSZip instance to add the mimetype file to.
      */
     private addMimeTypeToZip(newZip: JSZip): void {
-        if (this.files['mimetype']) {
-            newZip.file('mimetype', this.files['mimetype'].getContent(), {
+        if (this._files['mimetype']) {
+            newZip.file('mimetype', this._files['mimetype'].getContent(), {
                 compression: 'STORE',
             });
         }
@@ -116,9 +118,9 @@ export class EpubHandler {
      * @param newZip - The JSZip instance to add files to.
      */
     private addFilesToZip(newZip: JSZip): void {
-        Object.keys(this.files).forEach((path) => {
+        Object.keys(this._files).forEach((path) => {
             if (path !== 'mimetype') {
-                const file = this.files[path];
+                const file = this._files[path];
                 const content = file.getContent();
                 newZip.file(path, content);
             }

@@ -21,8 +21,8 @@
  * ```
  */
 export class EpubFile {
-    private readonly path: string;
-    private content: string | ArrayBuffer;
+    private readonly _path: string;
+    private _content: string | ArrayBuffer;
 
     /**
      * Creates a new EpubFile instance.
@@ -30,8 +30,8 @@ export class EpubFile {
      * @param content - The content of the file.
      */
     constructor(path: string, content: string | ArrayBuffer) {
-        this.path = path;
-        this.content = content;
+        this._path = path;
+        this._content = content;
     }
 
     /**
@@ -39,7 +39,7 @@ export class EpubFile {
      * @returns The path of the file.
      */
     getPath(): string {
-        return this.path;
+        return this._path;
     }
 
     /**
@@ -47,7 +47,7 @@ export class EpubFile {
      * @returns The content of the file.
      */
     getContent(): string | ArrayBuffer {
-        return this.content;
+        return this._content;
     }
 
     /**
@@ -56,9 +56,9 @@ export class EpubFile {
      * @returns The text content of the file.
      */
     getTextContent(): string {
-        return typeof this.content === 'string'
-            ? this.content
-            : this.decodeContent(this.content);
+        return typeof this._content === 'string'
+            ? this._content
+            : this.decodeContent(this._content);
     }
 
     /**
@@ -68,6 +68,7 @@ export class EpubFile {
      */
     private decodeContent(content: ArrayBuffer): string {
         const decoder = new TextDecoder('utf-8');
+
         return decoder.decode(content);
     }
 
@@ -76,6 +77,6 @@ export class EpubFile {
      * @param content - The new content of the file.
      */
     setContent(content: string | ArrayBuffer): void {
-        this.content = content;
+        this._content = content;
     }
 }

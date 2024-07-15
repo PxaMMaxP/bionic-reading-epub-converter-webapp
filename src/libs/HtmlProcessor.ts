@@ -1,6 +1,6 @@
-import { Parser } from 'htmlparser2';
-import { DomHandler, Element, Text, ChildNode } from 'domhandler';
 import { default as serialize } from 'dom-serializer';
+import { DomHandler, Element, Text, ChildNode } from 'domhandler';
+import { Parser } from 'htmlparser2';
 import { BionicReading } from './BionicReading';
 
 /**
@@ -31,7 +31,7 @@ export class HtmlProcessor {
     /**
      * Tags that should be excluded from processing.
      */
-    private readonly excludedTags = [
+    private readonly _excludedTags = [
         'a',
         'meta',
         'title',
@@ -50,7 +50,7 @@ export class HtmlProcessor {
      * Tags with specific classes that should be excluded from processing.
      * @remarks These tags are probably very specific to each eBook and therefore not suitable for every one.
      */
-    private readonly excludedTagsWithClasses: { [tag: string]: string[] } = {
+    private readonly _excludedTagsWithClasses: { [tag: string]: string[] } = {
         p: ['caption', 'parttext'],
         span: ['bold'],
         div: ['listing'],
@@ -64,14 +64,14 @@ export class HtmlProcessor {
      * - Decimal and hexadecimal character entities (&#\d+;|&#x[a-fA-F0-9]+;)
      * @remarks This regex uses Unicode property escapes (\p{L}, \p{N}) to match letters and numbers from any language.
      */
-    private readonly textRegex =
+    private readonly _textRegex =
         /[\p{L}\p{N}]+|[^\s\p{L}\p{N}]+|\s+|&#\d+;|&#x[a-fA-F0-9]+;/gu;
 
     /**
      * Regular expression to match sequences of whitespace characters.
      * @remarks This regex uses Unicode mode (u flag) to ensure it correctly matches Unicode whitespace characters.
      */
-    private readonly spaceRegex = /\s+/u;
+    private readonly _spaceRegex = /\s+/u;
 
     /**
      * Regular expression to match decimal and hexadecimal character entities in HTML.
@@ -79,13 +79,13 @@ export class HtmlProcessor {
      * - Hexadecimal entities: &#x[a-fA-F0-9]+;
      * @remarks This regex is useful for identifying encoded characters in HTML content.
      */
-    private readonly unicodeEntityRegex = /&#\d+;|&#x[a-fA-F0-9]+;/u;
+    private readonly _unicodeEntityRegex = /&#\d+;|&#x[a-fA-F0-9]+;/u;
 
     /**
      * Regular expression to match any character that is not a letter or number.
      * @remarks This regex uses Unicode property escapes (\p{L}, \p{N}) to match non-alphanumeric characters from any language.
      */
-    private readonly nonAlphanumericRegex = /[^\p{L}\p{N}]/u;
+    private readonly _nonAlphanumericRegex = /[^\p{L}\p{N}]/u;
 
     /**
      * Processes the given HTML content by parsing it, applying modifications, and serializing it back to HTML.
@@ -95,6 +95,7 @@ export class HtmlProcessor {
     process(html: string): string {
         const document = this.parseHtml(html);
         this.boldText(document);
+
         return this.serializeHtml(document);
     }
 
@@ -108,12 +109,14 @@ export class HtmlProcessor {
             withStartIndices: false,
             withEndIndices: false,
         });
+
         const parser = new Parser(handler, {
             decodeEntities: true,
             xmlMode: false,
         });
         parser.write(html);
         parser.end();
+
         return handler.dom as ChildNode[];
     }
 
@@ -147,10 +150,12 @@ export class HtmlProcessor {
      */
     private processTextNode(textNode: Text): void {
         const newNodes: ChildNode[] = this.createBoldOrMixedNodes(
-            textNode.data
+            textNode.data,
         );
+
         if (newNodes.length > 0) {
             const parent = textNode.parent as Element;
+
             if (parent) {
                 const index = parent.children.indexOf(textNode);
                 parent.children.splice(index, 1, ...newNodes);
@@ -173,10 +178,11 @@ export class HtmlProcessor {
 
         if (elementNode.children) {
             const newChildren: ChildNode[] = [];
+
             elementNode.children.forEach((child) => {
                 if (child.type === 'text') {
                     const newNodes = this.createBoldOrMixedNodes(
-                        (child as Text).data
+                        (child as Text).data,
                     );
                     newChildren.push(...newNodes);
                 } else if (child.type === 'tag') {
@@ -198,10 +204,10 @@ export class HtmlProcessor {
      */
     private shouldSkipElement(tagName: string, classList: string[]): boolean {
         return (
-            this.excludedTags.includes(tagName) ||
-            (tagName in this.excludedTagsWithClasses &&
+            this._excludedTags.includes(tagName) ||
+            (tagName in this._excludedTagsWithClasses &&
                 classList.some((cls) =>
-                    this.excludedTagsWithClasses[tagName].includes(cls)
+                    this._excludedTagsWithClasses[tagName].includes(cls),
                 ))
         );
     }
@@ -213,16 +219,16 @@ export class HtmlProcessor {
      * @returns An array of child nodes with bold formatting.
      */
     private createBoldOrMixedNodes(text: string): ChildNode[] {
-        const parts = text.match(this.textRegex) || [];
+        const parts = text.match(this._textRegex) || [];
         const nodes: ChildNode[] = [];
 
         parts.forEach((part) => {
             if (
-                this.spaceRegex.test(part) ||
-                this.unicodeEntityRegex.test(part)
+                this._spaceRegex.test(part) ||
+                this._unicodeEntityRegex.test(part)
             ) {
                 nodes.push(new Text(part));
-            } else if (this.nonAlphanumericRegex.test(part)) {
+            } else if (this._nonAlphanumericRegex.test(part)) {
                 nodes.push(new Text(part));
             } else {
                 const boldPoint = BionicReading.getBoldPoint(part.length);
@@ -242,6 +248,7 @@ export class HtmlProcessor {
     private createBoldNode(text: string): Element {
         const boldElement = new Element('b', {});
         boldElement.children.push(new Text(text));
+
         return boldElement;
     }
 }

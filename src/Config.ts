@@ -33,7 +33,7 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
 
     public static readonly successMessage = 'File successfully converted!';
 
-    private static readonly ELEMENT_IDS = {
+    private static readonly _elementIds = {
         headTitle: 'head-title',
         headDescription: 'head-description',
         appTitle: 'app-title',
@@ -63,7 +63,8 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
      */
     private static updateTitle(document: Document): void {
         document.title = Config.title;
-        document.getElementById(Config.ELEMENT_IDS.headTitle)!.innerText =
+
+        document.getElementById(Config._elementIds.headTitle)!.innerText =
             Config.title;
     }
 
@@ -73,7 +74,7 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
      */
     private static updateMetaDescription(document: Document): void {
         document
-            .getElementById(Config.ELEMENT_IDS.headDescription)!
+            .getElementById(Config._elementIds.headDescription)!
             .setAttribute('content', Config.description);
     }
 
@@ -82,13 +83,15 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
      * @param document - The HTML document to update.
      */
     private static async updateAppContent(document: Document): Promise<void> {
-        document.getElementById(Config.ELEMENT_IDS.appTitle)!.innerText =
+        document.getElementById(Config._elementIds.appTitle)!.innerText =
             Config.title;
         const htmlContent = await marked(Config.longDescription);
-        document.getElementById(Config.ELEMENT_IDS.appDescription)!.innerHTML =
+
+        document.getElementById(Config._elementIds.appDescription)!.innerHTML =
             htmlContent;
+
         document
-            .getElementById(Config.ELEMENT_IDS.githubCornerLink)!
+            .getElementById(Config._elementIds.githubCornerLink)!
             .setAttribute('href', Config.githubRepository);
     }
 
@@ -97,14 +100,15 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
      * @param document - The HTML document to update.
      */
     private static updateFooterContent(document: Document): void {
-        document.getElementById(Config.ELEMENT_IDS.footerAuthor)!.innerText =
+        document.getElementById(Config._elementIds.footerAuthor)!.innerText =
             Config.author;
+
         document
-            .getElementById(Config.ELEMENT_IDS.githubProfile)!
+            .getElementById(Config._elementIds.githubProfile)!
             .setAttribute('href', Config.githubProfile);
-        document.getElementById(
-            Config.ELEMENT_IDS.footerVersion
-        )!.innerText = `App Version: ${Config.version}`;
+
+        document.getElementById(Config._elementIds.footerVersion)!.innerText =
+            `App Version: ${Config.version}`;
     }
 
     /**
@@ -112,7 +116,7 @@ Enjoy a more efficient and pleasant reading experience with your newly converted
      * @param document - The HTML document to update.
      */
     private static updateSuccessMessage(document: Document): void {
-        document.getElementById(Config.ELEMENT_IDS.successMessage)!.innerText =
+        document.getElementById(Config._elementIds.successMessage)!.innerText =
             Config.successMessage;
     }
 }
